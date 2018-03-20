@@ -10,7 +10,7 @@
 ## Installation
 
 ```sh
-npm i -g object-explorer
+npm i -g object-explorer-cli
 ```
 
 ## Usage
