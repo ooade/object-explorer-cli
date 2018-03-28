@@ -5,8 +5,7 @@ const figlet = require('figlet')
 const clear = require('clear')
 const chalk = require('chalk')
 const state = require('./store').state
-const text = require('./text')
-const { merge, generateQuestions } = require('./utils')
+const options = require('./options')
 
 clear()
 
@@ -14,20 +13,7 @@ console.log(figlet.textSync('{ } Explorer'))
 
 console.log()
 
-const keys = Object.keys(state)
-
-const INIT_QUESTION = [
-	{
-		type: 'list',
-		name: 'init',
-		message: 'I have an object, I would like to',
-		choices: keys.map(key => text[key][0])
-	}
-]
-
-let questions = generateQuestions.init({ keys, state, text })
-
-questions = INIT_QUESTION.concat(merge(questions))
+const questions = options()
 
 inquirer.prompt(questions).then(answers => {
 	let answer = Object.keys(answers).filter(answer => answer !== 'init')
@@ -66,7 +52,7 @@ inquirer.prompt(questions).then(answers => {
 
 	console.log()
 
-	console.log(formatDesc(value.desc))
+	console.log('- ' + formatDesc(value.desc))
 
 	console.log()
 

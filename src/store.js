@@ -2,6 +2,7 @@
 
 module.exports = {
 	state: {
+		selectedMethod: '',
 		createObj: [
 			{
 				name: 'create',
