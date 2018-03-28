@@ -70,8 +70,11 @@ function generateOptions() {
 
 		return singleOption(
 			'list',
-			method,
-			method === 'infoProp' ? methodVerb : methodOptions + ' ' + methodVerb,
+			method.trim(),
+			(method === 'infoProp'
+				? methodVerb
+				: methodOptions + ' ' + methodVerb
+			).trim(),
 			choices,
 			answers => answers.init === lang.primaryOptions[methodIndex]
 		)
