@@ -1,34 +1,5 @@
 #!/usr/bin/env node
 const locale = require('./locale')
-const state = require('./store').state
-
-// The first option that is shown to users
-const firstOption = [
-	{
-		type: 'list',
-		name: 'init',
-		message: locale['en'].firstMethod,
-		choices: locale['en'].primaryOptions
-	}
-]
-
-const capitalize = str => str[0].toUpperCase() + str.slice(1)
-
-// This has the localMethods names
-const localeMethods = Object.keys(state).slice(1)
-
-// Picks the methodVerbs
-const methodVerbs = {
-	createObj: '',
-	createProp: locale['en'].methodTypes.create,
-	infoObj: locale['en'].methodTypes.determine,
-	noChange: '',
-	createString: locale['en'].methodTypes['return a'],
-	infoProp: locale['en'].infoPropMethod,
-	infoPropList: locale['en'].methodTypes['get an array of all of the'],
-	infoPropDetails: locale['en'].methodTypes['find out'],
-	prototype: ''
-}
 
 // Maps method to primary option index
 const mapMethodToIndex = {
@@ -41,29 +12,59 @@ const mapMethodToIndex = {
 	prototype: 6
 }
 
-function generateOptions() {
-	let lang = locale['en']
+function singleOption(type, name, message, choices, when) {
+	return {
+		type,
+		name,
+		message,
+		choices,
+		when
+	}
+}
 
-	function singleOption(type, name, message, choices, when) {
-		return {
-			type,
-			name,
-			message,
-			choices,
-			when
+const capitalize = str => str[0].toUpperCase() + str.slice(1)
+
+function generateOptions(lang) {
+	let localeLang = locale[lang]
+
+	const state = require('./store')[lang].state
+
+	// This has the localMethods names
+	const localeMethods = Object.keys(state).slice(1)
+
+	// The first option that is shown to users
+	const firstOption = [
+		{
+			type: 'list',
+			name: 'init',
+			message: localeLang.firstMethod,
+			choices: localeLang.primaryOptions
 		}
+	]
+
+	// Picks the methodVerbs
+	const methodVerbs = {
+		createObj: '',
+		createProp: localeLang.methodTypes.create,
+		infoObj: localeLang.methodTypes.determine,
+		noChange: '',
+		createString: localeLang.methodTypes['return a'],
+		infoProp: localeLang.infoPropMethod,
+		infoPropList: localeLang.methodTypes['get an array of all of the'],
+		infoPropDetails: localeLang.methodTypes['find out'],
+		prototype: ''
 	}
 
 	const options = localeMethods.map(method => {
 		const methodIndex = mapMethodToIndex[method]
 		const methodVerb = methodVerbs[method]
 
-		let methodOptions = lang.methodOptions
+		let methodOptions = localeLang.methodOptions
 		let choices
 
 		if (method === 'infoProp') {
-			choices = [lang.details, lang.list]
-			methodOptions = lang.infoPropMethod
+			choices = [localeLang.details, localeLang.list]
+			methodOptions = localeLang.infoPropMethod
 		} else {
 			choices = state[method].map(s => s.shortDesc)
 		}
@@ -76,21 +77,25 @@ function generateOptions() {
 				: methodOptions + ' ' + methodVerb
 			).trim(),
 			choices,
-			answers => answers.init === lang.primaryOptions[methodIndex]
+			answers => answers.init === localeLang.primaryOptions[methodIndex]
 		)
 	})
 
-	return options.concat(
-		Object.keys(state.infoProp).map(method => {
-			return singleOption(
-				'list',
-				method,
-				lang.methodOptions + ' ' + methodVerbs['infoProp' + capitalize(method)],
-				state.infoProp[method].map(s => s.shortDesc),
-				answers => answers.infoProp === lang[method]
-			)
-		})
+	return firstOption.concat(
+		options.concat(
+			Object.keys(state.infoProp).map(method => {
+				return singleOption(
+					'list',
+					method,
+					localeLang.methodOptions +
+						' ' +
+						methodVerbs['infoProp' + capitalize(method)],
+					state.infoProp[method].map(s => s.shortDesc),
+					answers => answers.infoProp === localeLang[method]
+				)
+			})
+		)
 	)
 }
 
-module.exports = () => firstOption.concat(...generateOptions())
+module.exports = generateOptions
