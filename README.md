@@ -29,6 +29,31 @@ and feel the magic :star:
 
 You should also check out [Array Explorer CLI](https://github.com/ooade/array-explorer-cli)
 
+## Available Options
+
+- **-help** - displays help
+- **-lang=\<short code\> | -l \<short code\>** - displays object-explorer in the specified language code
+
+## List of Available Languages
+
+| Short Code | Language |
+| - | - |
+|bg|Bulgarian|
+|cz|Czech|
+|de|German|
+|en|English(Default)|
+|es|Spanish|
+|fr|French|
+|id|Indonesian|
+|it|Italian|
+|nl|Dutch|
+|pt_pt|Portuguese (Portugal)|
+|ru|Russian|
+|zh_cn|Chinese (Simplified)|
+|zh_hk|Chinese (Traditional)|
+
+Create an issue to add more :tada:
+
 ## Aknowledgements
 Thanks to [Sarah Drasner](https://github.com/sdras). She created the [object-explorer](https://github.com/sdras/object-explorer) web version which you could visit using https://sdras.github.io/object-explorer/
 

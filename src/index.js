@@ -8,12 +8,30 @@ const argv = require('minimist')(process.argv.slice(2))
 
 clear()
 
-const lang = argv.lang || argv.l || 'en'
+const lang =
+	typeof argv.lang === 'string'
+		? argv.lang
+		: typeof argv.l === 'string' ? argv.l : 'en'
+
 const help = argv.help || argv.h || argv._[0] === 'help'
 
 console.log(figlet.textSync('{ } Explorer'))
 
 if (help) {
+	const countryCodeWithLanguage = `|bg|Bulgarian|
+		|cz|Czech|
+		|de|German|
+		|en|English(Default)|
+		|es|Spanish|
+		|fr|French|
+		|id|Indonesian|
+		|it|Italian|
+		|nl|Dutch|
+		|pt_pt|Portuguese (Portugal)|
+		|ru|Russian|
+		|zh_cn|Chinese (Simplified)|
+		|zh_hk|Chinese (Traditional)|`
+
 	console.log()
 
 	console.log(
@@ -22,19 +40,28 @@ if (help) {
 
 	console.log()
 
-	console.log('usage: object-explorer [help] [-h | --help] <lang>')
-
-	console.log()
-
-	console.log('<lang> can be one of the following:')
-
-	console.log()
-
 	console.log(
-		Object.keys(require('./store'))
-			.map(s => '- ' + s)
-			.join('\n')
+		`${chalk.bold('usage:')} object-explorer [help] [-h | --help] <short code>`
 	)
+
+	console.log()
+
+	console.log('<short code> can be one of the following:')
+
+	console.log()
+
+	countryCodeWithLanguage
+		.split('\n')
+		.map(s => s.split('|').slice(1, 3))
+		.map(([code, lang]) => {
+			console.log(`- ${chalk.bold(code)} - ${chalk.hex('#888888')(lang)}`)
+		})
+
+	console.log()
+
+	console.log('Example: object-explorer --lang es')
+
+	console.log()
 
 	return
 }
