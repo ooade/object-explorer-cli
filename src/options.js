@@ -26,6 +26,22 @@ const capitalize = str => str[0].toUpperCase() + str.slice(1)
 function generateOptions(lang) {
 	let localeLang = locale[lang]
 
+	if (!Object.keys(locale).some(l => l === lang)) {
+		console.log()
+
+		console.log('Language not found!')
+
+		console.log()
+
+		console.log(
+			'Type `object-explorer help` to see list of available languages'
+		)
+
+		console.log()
+
+		process.exit(1)
+	}
+
 	const state = require('./store')[lang].state
 
 	// This has the localMethods names
