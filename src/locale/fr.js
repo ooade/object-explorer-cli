@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 module.exports = {
 	firstMethod: "J'ai un objet, je veux",
 	infoPropMethod: 'Je veux obtenir',
