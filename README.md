@@ -25,7 +25,7 @@ obj-explorer
 ```
 and feel the magic :star:
 
-<img src="https://res.cloudinary.com/stackpie/image/upload/v1521406248/object_explorer_eej6f1.png" width="400" alt="object-explorer-cli">
+<img src="https://res.cloudinary.com/stackpie/image/upload/v1522560308/object_explorer_se8o8u.png" width="400" alt="object-explorer-cli">
 
 You should also check out [Array Explorer CLI](https://github.com/ooade/array-explorer-cli)
 
